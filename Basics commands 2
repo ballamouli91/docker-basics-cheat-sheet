@@ -1,0 +1,38 @@
+Working with Docker Images  how docker image is created --> docker build <context>
+Overview of Dockerfile   series of instruction docker file
+example - Dockerfile --> 
+FROM ubuntu 
+RUN apt-get update 
+RUN apt-get install -y nginx 
+COPY index.nginx-debian.html /var/www/html 
+CMD nginx -g 'daemon off;'
+----------------------------
+mkdir myproject && cd myproject
+echo "hello" > hello
+echo -e "FROM busybox\nCOPY /hello /\nRUN cat /hello" > Dockerfile
+docker build -t helloapp:v1 .
+
+COPY vs ADD Instructions   COPY just copy , Add  First, you can use a URL instead of a local file / directory. Secondly, you can extract a tar file from the source directly into the destination.
+Dockerfile HEALTHCHECK Instruction  docker run -dt --name busybox busybox sh, get IP of it and run another command instruction  ping  HEALTHCHECK --interval=5s CMD ping -c ip
+Dockerfile ENTRYPOINT Instruction   CMD is the default cna be overwritten, enterypoint making the image as executable
+Tagging Docker Images   docker tag -t docker userid/image:versionion-name 
+Docker Commit  make image out of running container, docker run -it alpine sh -->apk add --update redis-->docker commit -c ‘CMD [“redis-server”]’ <conatinerid> 
+Docker container commit --change ' CMD ["/bin/bash"] ' container-name new-name ; CONTAINER WILL BE PAUSED
+Layers of Docker Images  docker history image-name/id
+New cli commands   docker images / docker image ls ; docker pull docker image pull 
+Inspecting Docker Images  docker inspect image-name ; docker inspect busybox --format='{{.Id}}'; docker inspect busybox --format='{{json .NetworkSettings.Networks.bridge.IPAddress}}'; docker image inspect imagename --format='{{. Containerconfig}}'
+
+Pruning Docker Images  removes dangling images, docker images --filter "dangling=true" -q --no-truncdocker, docker image prune; docker image prune -a
+Docker import and Export to reduce some size / Flattering the layers of image  -->It is always recommended to reduce no of layers of image--> Docker export <conatiner-name> > flattering.tar --.> ls -l flattering.tar -->cat flatter.tar | docker import - myflatter.latest
+
+Overview of Docker Registries  https://hub.docker.com/ 
+Docker registry open source with limited features.
+DTR for docker enterprise application, lot of features
+ECR is Amazon docker registry
+Docker Hub is cloud base public offering to use in general
+Build image docker build -t <tagsyntax> . (context where file is there )  or if you want to build from file docker build -f dockerfile.dev .
+Tag image  docker tag -t docker userid/image:versionion-name
+Pushing Images to Central Repository -->docker login --> Docker push <account name>/image-name:tag -->Docker pull <account name >/image-name tag
+
+Applying Filters for Docker Images -->  docker search nginx --limit 5  (tput based in the stars); docker search nginx --filter "is-official=true"
+
