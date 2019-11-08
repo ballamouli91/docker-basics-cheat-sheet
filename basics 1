@@ -1,0 +1,27 @@
+Practice site : https://labs.play-with-docker.com/ 
+
+Introduction to Docker Containers
+Installing Docker on amazon Linux ,Commands 
+                sudo amazon-linux-extras install docker
+                sudo service docker start
+                sudo usermod -a -G docker ec2-user
+                sudo chkconfig docker on 
+                normal linux
+                1.            yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+                2.            yum -y install docker-ce
+                3.            systemctl start docker
+
+Docker Image vs Docker Containers --> docker run --name <give container name> <image you want to run as container> , doker ps to see running container
+Container Identification  --> docker ps –a (all including stopped) ; docker container ls,
+Port Binding --> Docker run -d -p 8080:80 --name <container-name> <image name>
+ 
+Attached and Detached Modes --> Docker run -d hello-word
+Removing Docker Containers and images --> docker rm ; < container ID/name> ; docker rmi image-name/id 
+docker container exec and IT flag -> docker exec -it <container name> <command>
+
+Default Container Commands --> docker run busybox ping -i 10 google.com
+Overriding Default Container Commands (8) --> docker run image-name command
+Restart Policies in Docker  docker run --restart=always redis 
+
+Disk Usage Metrics for Docker Components --> docker system df -v  (see component status) , 
+Automatically Delete Container on Exit  --> docker run -d --rm --name busy busybox sleep 20
